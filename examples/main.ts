@@ -10,8 +10,8 @@ class MyCounter extends CustomElement(HTMLElement) {
 
     template = `<p>The current count is: <span id="count"></span></p>`
 
-    @Attribute()
-    count: string = '0'
+    @Attribute('number')
+    count: number = 0
 
     interval!: number
 
@@ -25,9 +25,8 @@ class MyCounter extends CustomElement(HTMLElement) {
     }
 
     protected updateCount = () => {
-        const newCount = parseInt(this.count, 10) + 1
-        this.count = newCount.toString()
-        this.$count.innerHTML = this.count
+        this.count = this.count + 1
+        this.$count.innerHTML = this.count.toString()
     }
 }
 

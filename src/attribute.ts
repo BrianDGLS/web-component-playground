@@ -129,8 +129,10 @@ export function Attribute(type: AttributeType = '') {
         switch (type) {
             case 'boolean':
                 setBooleanAttribute(target, key)
+                break
             case 'number':
                 setNumberAttribute(target, key)
+                break
             default:
                 setStringAttribute(target, key)
         }
