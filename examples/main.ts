@@ -13,6 +13,9 @@ class MyCounter extends CustomElement(HTMLElement) {
     @Attribute('number')
     count: number = 0
 
+    @Attribute('boolean')
+    backwards: boolean = false
+
     interval!: number
 
     $count!: HTMLElement
@@ -25,7 +28,11 @@ class MyCounter extends CustomElement(HTMLElement) {
     }
 
     protected updateCount = () => {
-        this.count = this.count + 1
+        if(this.backwards) {
+            this.count = this.count - 1
+        } else {
+            this.count = this.count + 1
+        }
         this.$count.innerHTML = this.count.toString()
     }
 }

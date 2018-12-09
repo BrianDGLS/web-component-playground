@@ -99,10 +99,17 @@ function booleanSetter(context: any, options: BooleanAttribute): void {
     const { initialised, initialValue } = context[initialKey]
 
     if (!initialised && initialValue) {
-        context.setAttribute(key, initialValue)
+        if(initialValue) {
+        } else {
+            context.removeAttribute(key)
+        }
         context[initialKey].initialised = true
     } else {
-        context.setAttribute(key, value)
+        if(value) {
+            context.setAttribute(key, value)
+        } else {
+            context.removeAttribute(key)
+        }
     }
 }
 
