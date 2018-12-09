@@ -1,17 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <my-counter></my-counter>
-    <my-counter count="112"></my-counter>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+    </head>
+    <body>
+        <my-counter id="counter"></my-counter>
+        <script>
+            const counter = document.getElementById('counter')
 
-    <my-clock></my-clock>
-    <my-hex-clock></my-hex-clock>
-    <script src="../dist/examples.js"></script>
-</body>
+            counter.addEventListener('connected', () => {
+                console.log('Counter Connected')
+            })
+
+            counter.addEventListener('attributeChanged', () => {
+                console.log('Counter Attribute Changed')
+            })
+        </script>
+
+        <my-counter count="112"></my-counter>
+
+        <my-clock></my-clock>
+        <my-hex-clock></my-hex-clock>
+        <script src="../dist/examples.js"></script>
+    </body>
 </html>
