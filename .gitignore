@@ -1,3 +1,9 @@
+# Misc
+dist
+src/**/*.js
+.DS_Store
+
+
 # Logs
 logs
 *.log

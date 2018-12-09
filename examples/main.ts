@@ -1,12 +1,12 @@
-import { Component, Attr } from '../src/main'
+import { CustomElement, Attribute } from '../src/main'
 
-class MyCounterComponent extends Component(HTMLElement) {
+class MyCounterComponent extends CustomElement(HTMLElement) {
     static selector = 'my-counter'
     static observedAttributes = ['count']
 
     template = `<p>The current count is: <span id="count"></span></p>`
 
-    @Attr()
+    @Attribute()
     count: string = '0'
 
     interval!: number

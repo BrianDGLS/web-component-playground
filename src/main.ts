@@ -1,2 +1,2 @@
-export { Attr } from './attr'
-export { Component } from './component'
+export { Attribute } from './attribute'
+export { CustomElement } from './custom-element'

@@ -1,7 +1,7 @@
-type AttrType = 'string' | 'number' | 'boolean' | ''
-type StringAttr = { key: string; value: string; initialKey: string }
-type NumberAttr = { key: string; value: number; initialKey: string }
-type BooleanAttr = { key: string; value: boolean; initialKey: string }
+type AttributeType = 'string' | 'number' | 'boolean' | ''
+type StringAttribute = { key: string; value: string; initialKey: string }
+type NumberAttribute = { key: string; value: number; initialKey: string }
+type BooleanAttribute = { key: string; value: boolean; initialKey: string }
 
 function getInitialKeyName(): string {
     const num = Math.random().toString(36)
@@ -12,15 +12,15 @@ function getInitialKeyDescriptor(): any {
     return { writable: true, value: undefined }
 }
 
-function getInitalAttrKey(target: any) {
+function getInitalAttributeKey(target: any) {
     const initialKey = getInitialKeyName()
     const initialKeyValidator = getInitialKeyDescriptor()
     Object.defineProperty(target, initialKey, initialKeyValidator)
     return initialKey
 }
 
-function setStringAttr(target: any, key: string) {
-    const initialKey = getInitalAttrKey(target)
+function setStringAttribute(target: any, key: string) {
+    const initialKey = getInitalAttributeKey(target)
 
     Object.defineProperty(target, key, {
         enumerable: true,
@@ -29,17 +29,17 @@ function setStringAttr(target: any, key: string) {
         },
         set(value: string) {
             stringSetter(this, { key, value, initialKey })
-        },
+        }
     })
 }
 
-function stringSetter(context: any, options: StringAttr): void {
+function stringSetter(context: any, options: StringAttribute): void {
     const { initialKey, key, value } = options
 
     if (context[initialKey] === undefined) {
         context[initialKey] = {
             initialised: false,
-            initialValue: context.getAttribute(key),
+            initialValue: context.getAttribute(key)
         }
     }
 
@@ -53,13 +53,13 @@ function stringSetter(context: any, options: StringAttr): void {
     }
 }
 
-function numberSetter(context: any, options: NumberAttr): void {
+function numberSetter(context: any, options: NumberAttribute): void {
     const { initialKey, key, value } = options
 
     if (context[initialKey] === undefined) {
         context[initialKey] = {
             initialised: false,
-            initialValue: parseInt(context.getAttribute(key), 10),
+            initialValue: parseInt(context.getAttribute(key), 10)
         }
     }
 
@@ -73,8 +73,8 @@ function numberSetter(context: any, options: NumberAttr): void {
     }
 }
 
-function setNumberAttr(target: any, key: string) {
-    const initialKey = getInitalAttrKey(target)
+function setNumberAttribute(target: any, key: string) {
+    const initialKey = getInitalAttributeKey(target)
     Object.defineProperty(target, key, {
         enumerable: true,
         get() {
@@ -82,17 +82,17 @@ function setNumberAttr(target: any, key: string) {
         },
         set(value: number) {
             numberSetter(this, { key, value, initialKey })
-        },
+        }
     })
 }
 
-function booleanSetter(context: any, options: BooleanAttr): void {
+function booleanSetter(context: any, options: BooleanAttribute): void {
     const { initialKey, key, value } = options
 
     if (context[initialKey] === undefined) {
         context[initialKey] = {
             initialised: false,
-            initialValue: context.hasAttribute(key),
+            initialValue: context.hasAttribute(key)
         }
     }
 
@@ -106,8 +106,8 @@ function booleanSetter(context: any, options: BooleanAttr): void {
     }
 }
 
-function setBooleanAttr(target: any, key: string) {
-    const initialKey = getInitalAttrKey(target)
+function setBooleanAttribute(target: any, key: string) {
+    const initialKey = getInitalAttributeKey(target)
     Object.defineProperty(target, key, {
         enumerable: true,
         get() {
@@ -115,11 +115,11 @@ function setBooleanAttr(target: any, key: string) {
         },
         set(value: boolean) {
             booleanSetter(this, { key, value, initialKey })
-        },
+        }
     })
 }
 
-export function Attr(type: AttrType = '') {
+export function Attribute(type: AttributeType = '') {
     return (target: any, key: string) => {
         const value = target[key]
         if (target.hasOwnProperty(key)) {
@@ -128,11 +128,11 @@ export function Attr(type: AttrType = '') {
 
         switch (type) {
             case 'boolean':
-                setBooleanAttr(target, key)
+                setBooleanAttribute(target, key)
             case 'number':
-                setNumberAttr(target, key)
+                setNumberAttribute(target, key)
             default:
-                setStringAttr(target, key)
+                setStringAttribute(target, key)
         }
 
         if (value !== undefined) {
