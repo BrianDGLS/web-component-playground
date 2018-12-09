@@ -70,10 +70,10 @@ export function CustomLifeCycle<TBase extends Constructor>(Base: TBase) {
         protected attributeChangedEvent(
             attr: string,
             prev: any,
-            curr: any,
+            curr: any
         ): CustomEvent {
             return new CustomEvent('attributeChanged', {
-                detail: { attr, prev, curr },
+                detail: { attr, prev, curr }
             })
         }
 
@@ -88,31 +88,31 @@ export function CustomLifeCycle<TBase extends Constructor>(Base: TBase) {
          */
         private adoptedCallback(): void {
             const ctx = this as any
-            ctx.dispatchEvent(this.adoptedEvent())
-            this.adopted()
+            ctx.dispatchEvent(ctx.adoptedEvent())
+            ctx.adopted()
         }
         private connectedCallback(): void {
             const ctx = this as any
             if (ctx.useShadow) {
                 ctx.attachShadow(ctx.attachShadowOptions)
             }
-            ctx.dispatchEvent(this.connectedEvent())
+            ctx.dispatchEvent(ctx.connectedEvent())
             ctx.render(true)
-            this.connected()
+            ctx.connected()
         }
         private disconnectedCallback(): void {
             const ctx = this as any
-            ctx.dispatchEvent(this.disconnectedEvent())
-            this.disconnected()
+            ctx.dispatchEvent(ctx.disconnectedEvent())
+            ctx.disconnected()
         }
         private attributeChangedCallback(
             attr: string,
             prev: any,
-            curr: any,
+            curr: any
         ): void {
             const ctx = this as any
-            ctx.dispatchEvent(this.attributeChangedEvent(attr, prev, curr))
-            this.attributeChanged(attr, prev, curr)
+            ctx.dispatchEvent(ctx.attributeChangedEvent(attr, prev, curr))
+            ctx.attributeChanged(attr, prev, curr)
         }
     }
 }

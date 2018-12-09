@@ -19,18 +19,18 @@ export function BaseElement<TBase extends Constructor>(Base: TBase) {
 
         protected get root(): this | ShadowRoot {
             const ctx = this as any
-            if (this.useShadow) {
+            if (ctx.useShadow) {
                 return ctx.shadowRoot as ShadowRoot
             }
 
-            return this
+            return ctx
         }
 
         protected render(defaultTemplate: boolean = false): void {
             const ctx = this as any
-            if (!this.template) return
+            if (!ctx.template) return
             if (defaultTemplate) {
-                const content = this.templateElement.content
+                const content = ctx.templateElement.content
                 ctx.root.appendChild(document.importNode(content, true))
             } else {
                 // content updated
