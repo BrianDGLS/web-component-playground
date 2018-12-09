@@ -3,24 +3,24 @@ type StringAttribute = { key: string; value: string; initialKey: string }
 type NumberAttribute = { key: string; value: number; initialKey: string }
 type BooleanAttribute = { key: string; value: boolean; initialKey: string }
 
-function getInitialKeyName(): string {
+function getInitialKeyName(key: string): string {
     const num = Math.random().toString(36)
-    return '_' + num.substr(2, 9)
+    return `_${key}_${num.substr(2, 9)}`
 }
 
 function getInitialKeyDescriptor(): any {
     return { writable: true, value: undefined }
 }
 
-function getInitalAttributeKey(target: any) {
-    const initialKey = getInitialKeyName()
+function getInitalAttributeKey(key: string, target: any): string {
+    const initialKey = getInitialKeyName(key)
     const initialKeyValidator = getInitialKeyDescriptor()
     Object.defineProperty(target, initialKey, initialKeyValidator)
     return initialKey
 }
 
 function setStringAttribute(target: any, key: string) {
-    const initialKey = getInitalAttributeKey(target)
+    const initialKey = getInitalAttributeKey(key, target)
 
     Object.defineProperty(target, key, {
         enumerable: true,
@@ -74,7 +74,7 @@ function numberSetter(context: any, options: NumberAttribute): void {
 }
 
 function setNumberAttribute(target: any, key: string) {
-    const initialKey = getInitalAttributeKey(target)
+    const initialKey = getInitalAttributeKey(key, target)
     Object.defineProperty(target, key, {
         enumerable: true,
         get() {
@@ -107,7 +107,7 @@ function booleanSetter(context: any, options: BooleanAttribute): void {
 }
 
 function setBooleanAttribute(target: any, key: string) {
-    const initialKey = getInitalAttributeKey(target)
+    const initialKey = getInitalAttributeKey(key, target)
     Object.defineProperty(target, key, {
         enumerable: true,
         get() {
