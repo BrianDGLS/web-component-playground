@@ -1,4 +1,8 @@
-import { CustomElement, Attribute } from '../src/main'
+import { define, CustomElement, Attribute } from '../src/main'
+
+window.addEventListener('DOMContentLoaded', () => {
+    define(MyCounter, MyClock, MyHexClock)
+})
 
 class MyCounter extends CustomElement(HTMLElement) {
     static selector = 'my-counter'
@@ -26,8 +30,6 @@ class MyCounter extends CustomElement(HTMLElement) {
         this.$count.innerHTML = this.count
     }
 }
-
-window.customElements.define(MyCounter.selector, MyCounter)
 
 class MyClock extends CustomElement(HTMLElement) {
     static selector = 'my-clock'
@@ -60,8 +62,6 @@ class MyClock extends CustomElement(HTMLElement) {
     }
 }
 
-window.customElements.define(MyClock.selector, MyClock)
-
 class MyHexClock extends MyClock {
     static selector = 'my-hex-clock'
 
@@ -83,5 +83,3 @@ class MyHexClock extends MyClock {
         return '#' + h.substr(-2) + '' + m.substr(-2) + '' + s.substr(-2)
     }
 }
-
-window.customElements.define(MyHexClock.selector, MyHexClock)
