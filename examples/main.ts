@@ -1,91 +1,109 @@
-import { define, CustomElement, Attribute } from '../src/main'
+import { html } from 'lit-html';
+import { define, CustomElement, Attribute } from '../src/public-api';
 
-window.addEventListener('DOMContentLoaded', () => {
-    define(MyCounter, MyClock, MyHexClock)
-})
+window.addEventListener('DOMContentLoaded', function() {
+  define(MyCounter, MyClock, MyHexClock, MyAlertButton);
+});
+
+class MyAlertButton extends CustomElement(HTMLElement) {
+  static selector = 'my-alert-button';
+  get template() {
+    return html`<button @click=${this.alert}>click me</button>`
+  }
+  alert() {
+    alert('The click event is bound in the template')
+  }
+}
 
 class MyCounter extends CustomElement(HTMLElement) {
-    static selector = 'my-counter'
-    static observedAttributes = ['count']
+  static selector = 'my-counter';
+  static observedAttributes = ['count'];
 
-    template = `<p>The current count is: <span id="count"></span></p>`
+  get template() {
+    return html`
+      <p>The current count is: <span>${this.count}</span></p>
+    `;
+  }
 
-    @Attribute('number')
-    count: number = 0
+  @Attribute('number')
+  count: number = 0;
 
-    @Attribute('boolean')
-    backwards: boolean = false
+  @Attribute('boolean')
+  backwards: boolean = false;
 
-    interval!: number
+  connected() {
+    setInterval(this.updateCount, 1000);
+  }
 
-    $count!: HTMLElement
-
-    connected() {
-        this.$count = this.querySelector('#count') as HTMLElement
-
-        this.updateCount()
-        this.interval = setInterval(this.updateCount, 1000)
+  protected updateCount = () => {
+    if (this.backwards) {
+      this.count = this.count - 1;
+    } else {
+      this.count = this.count + 1;
     }
-
-    protected updateCount = () => {
-        if(this.backwards) {
-            this.count = this.count - 1
-        } else {
-            this.count = this.count + 1
-        }
-        this.$count.innerHTML = this.count.toString()
-    }
+  };
 }
 
 class MyClock extends CustomElement(HTMLElement) {
-    static selector = 'my-clock'
-    static observedAttributes = ['time']
+  static selector = 'my-clock';
+  static observedAttributes = ['timestring'];
 
-    template = `<h2 id="time"></h2>`
-    $time!: HTMLElement
+  @Attribute()
+  timestring: string = this.getTimeString();
 
-    connected() {
-        this.$time = this.querySelector('#time') as HTMLElement
+  get template() {
+    return html`
+      <h2>${this.timestring}</h2>
+    `;
+  }
 
-        this.updateTime()
-        setInterval(this.updateTime, 1000)
-    }
+  connected() {
+    setInterval(() => {
+      this.timestring = this.getTimeString();
+    }, 1000);
+  }
 
-    updateTime = () => {
-        this.$time.innerHTML = this.getTimeString()
-    }
+  getTimeString() {
+    const { h, m, s } = this.getTime();
+    return h.substr(-2) + ':' + m.substr(-2) + ':' + s.substr(-2);
+  }
 
-    getTimeString() {
-        const { h, m, s } = this.getTime()
-        return h.substr(-2) + ':' + m.substr(-2) + ':' + s.substr(-2)
-    }
-
-    getTime() {
-        const h = '0' + new Date().getHours()
-        const m = '0' + new Date().getMinutes()
-        const s = '0' + new Date().getSeconds()
-        return { h, m, s }
-    }
+  getTime() {
+    const h = '0' + new Date().getHours();
+    const m = '0' + new Date().getMinutes();
+    const s = '0' + new Date().getSeconds();
+    return { h, m, s };
+  }
 }
 
 class MyHexClock extends MyClock {
-    static selector = 'my-hex-clock'
+  static selector = 'my-hex-clock';
+  static observedAttributes = ['hexstring'];
 
-    connected() {
-        super.connected()
+  @Attribute()
+  hexstring: string = this.getHexString();
 
-        this.updateHex()
-        this.$time.style.color = 'white'
+  get template() {
+    return html`
+      <style>
+        my-hex-clock h2 {
+          color: white;
+        }
+      </style>
+      <h2 style="background: ${this.hexstring}">
+        ${this.hexstring}
+      </h2>
+    `;
+  }
 
-        setInterval(this.updateHex, 1000)
-    }
+  connected() {
+    setInterval(() => {
+      this.hexstring = this.getHexString();
+    }, 1000);
+  }
 
-    updateHex = () => {
-        this.$time.style.background = this.getHexString()
-    }
-
-    getHexString() {
-        const { h, m, s } = this.getTime()
-        return '#' + h.substr(-2) + '' + m.substr(-2) + '' + s.substr(-2)
-    }
+  getHexString() {
+    const { h, m, s } = this.getTime();
+    return '#' + h.substr(-2) + '' + m.substr(-2) + '' + s.substr(-2);
+  }
 }

@@ -1,18 +1,21 @@
-const { resolve } = require('path')
+const path = require('path');
 
 module.exports = {
-    entry: {
-        src: './src/main.ts',
-        examples: './examples/main.ts'
-    },
-    output: {
-        path: resolve(__dirname, 'dist'),
-        filename: '[name].js',
-    },
-    resolve: {
-        extensions: ['.ts', '.tsx', '.js'],
-    },
-    module: {
-        rules: [{ test: /\.tsx?$/, loader: 'ts-loader' }],
-    },
-}
+  entry: path.join(__dirname, 'examples', 'main.ts'),
+  output: {
+    filename: 'bundle.min.js',
+    path: path.join(__dirname, 'dist'),
+  },
+  resolve: {
+    extensions: ['.ts', '.js', '.json'],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.ts$/,
+        exclude: /node_modules/,
+        loader: 'ts-loader',
+      },
+    ],
+  },
+};

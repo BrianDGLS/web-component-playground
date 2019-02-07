@@ -1,29 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <title>Document</title>
-    </head>
-    <body>
-        <my-counter id="counter"></my-counter>
-        <script>
-            const counter = document.getElementById('counter')
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script type="text/javascript">
+      if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
+        document.write('<script src="//cdn.polyfill.io/v2/polyfill.min.js"><\/script>');
+        document.write('<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js"><\/script>');
+        document.write('<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"><\/script>');
+        document.write('<script src="../dist/bundle-ie.min.js"><\/script>');
+      } else {
+        document.write('<script src="../dist/bundle.min.js"><\/script>');
+      }
+    </script>
+  </head>
+  <body>
+    <my-alert-button></my-alert-button>
+    
+    <my-counter id="counter"></my-counter>
+    <script>
+      var counter = document.getElementById('counter');
 
-            counter.addEventListener('connected', () => {
-                console.log('Counter Connected')
-            })
+      counter.addEventListener('connected', function() {
+        console.log('Counter Connected');
+      });
 
-            counter.addEventListener('attributeChanged', () => {
-                console.log('Counter Attribute Changed')
-            })
-        </script>
+      counter.addEventListener('attributeChanged', function() {
+        console.log('Counter Attribute Changed');
+      });
+    </script>
 
-        <my-counter count="112" backwards></my-counter>
+    <my-counter count="112" backwards></my-counter>
 
-        <my-clock></my-clock>
-        <my-hex-clock></my-hex-clock>
-        <script src="../dist/examples.js"></script>
-    </body>
+    <my-clock></my-clock>
+    <my-hex-clock></my-hex-clock>
+  </body>
 </html>
