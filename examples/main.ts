@@ -2,8 +2,15 @@ import { html } from 'lit-html';
 import { define, CustomElement, Attribute } from '../src/public-api';
 
 window.addEventListener('DOMContentLoaded', function() {
-  define(MyCounter, MyClock, MyHexClock, MyAlertButton);
+  define(MyCounter, MyClock, MyHexClock, MyAlertButton, MyList);
 });
+
+class MyList extends CustomElement(HTMLElement) {
+  static selector = 'my-list';
+  get template() {
+    return html`<ul><slot></slot></ul>`
+  }
+}
 
 class MyAlertButton extends CustomElement(HTMLElement) {
   static selector = 'my-alert-button';
