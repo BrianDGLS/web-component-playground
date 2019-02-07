@@ -94,6 +94,9 @@ export function CustomLifeCycle<TBase extends Constructor>(Base: TBase) {
     private connectedCallback(): void {
       const ctx = this as any;
       ctx.dispatchEvent(ctx.connectedEvent());
+      if (ctx.useShadowDOM) {
+        ctx.attachShadow({ mode: 'open' });
+      }
       ctx.render();
       ctx.connected();
     }

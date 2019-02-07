@@ -4,12 +4,14 @@ import { Constructor } from './constructor';
 
 export function BaseElement<TBase extends Constructor>(Base: TBase) {
   return class extends Base {
-    protected template!: TemplateResult;
+    public useShadowDOM: boolean = false;
+    public template(): TemplateResult {
+      throw new Error('Template function must be implemented');
+    }
     protected render(): void {
-      if (!this.template) {
-        throw new Error('template must be set');
-      }
-      render(this.template, this as any);
+      const ctx = this as any;
+      const container = ctx.shadowRoot ? ctx.shadowRoot : this;
+      render(this.template(), container);
     }
   };
 }

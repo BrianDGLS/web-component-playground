@@ -7,18 +7,33 @@ window.addEventListener('DOMContentLoaded', function() {
 
 class MyList extends CustomElement(HTMLElement) {
   static selector = 'my-list';
-  get template() {
-    return html`<ul><slot></slot></ul>`
+  useShadowDOM = true;
+  template() {
+    return html`
+      <style>
+        :host ul {
+          font-style: italic;
+        }
+        ::slotted(li) {
+          color: red;
+        }
+      </style>
+      <ul>
+        <slot></slot>
+      </ul>
+    `;
   }
 }
 
 class MyAlertButton extends CustomElement(HTMLElement) {
   static selector = 'my-alert-button';
-  get template() {
-    return html`<button @click=${this.alert}>click me</button>`
+  template() {
+    return html`
+      <button @click=${this.alert}>click me</button>
+    `;
   }
   alert() {
-    alert('The click event is bound in the template')
+    alert('The click event is bound in the template');
   }
 }
 
@@ -26,7 +41,7 @@ class MyCounter extends CustomElement(HTMLElement) {
   static selector = 'my-counter';
   static observedAttributes = ['count'];
 
-  get template() {
+  template() {
     return html`
       <p>The current count is: <span>${this.count}</span></p>
     `;
@@ -58,7 +73,7 @@ class MyClock extends CustomElement(HTMLElement) {
   @Attribute()
   timestring: string = this.getTimeString();
 
-  get template() {
+  template() {
     return html`
       <h2>${this.timestring}</h2>
     `;
@@ -90,10 +105,10 @@ class MyHexClock extends MyClock {
   @Attribute()
   hexstring: string = this.getHexString();
 
-  get template() {
+  template() {
     return html`
       <style>
-        my-hex-clock h2 {
+        my-hex-clock > h2 {
           color: white;
         }
       </style>
