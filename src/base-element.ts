@@ -6,7 +6,7 @@ export function BaseElement<TBase extends Constructor>(Base: TBase) {
   return class extends Base {
     public useShadowDOM: boolean = false;
     public template(): TemplateResult {
-      throw new Error('Template function must be implemented');
+      throw new Error('template function must be implemented');
     }
     protected render(): void {
       const ctx = this as any;

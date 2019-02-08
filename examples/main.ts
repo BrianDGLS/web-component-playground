@@ -119,6 +119,7 @@ class MyHexClock extends MyClock {
   }
 
   connected() {
+    super.connected();
     setInterval(() => {
       this.hexstring = this.getHexString();
     }, 1000);
